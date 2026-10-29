@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday, Himanshi!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg1: #fbe3ec;
+    --bg2: #f3c9dc;
+    --ink: #3a1230;
+    --ink-soft: #6d3a5d;
+    --env: #c93a66;
+    --env-dark: #a42a52;
+    --env-flap: #dc527c;
+    --seal: #f2b33d;
+    --seal-ink: #7a3b00;
+    --paper: #fffaf3;
+    --paper-ink: #35212d;
+    --paper-soft: #7a5368;
+    --btn-bg: #3a1230;
+    --btn-ink: #fff4f8;
+    --btn-ghost-border: #3a1230;
+    --focus: #f2b33d;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg1: #2a0f2a;
+      --bg2: #1a0919;
+      --ink: #ffe9f1;
+      --ink-soft: #e3b0c8;
+      --env: #d2476f;
+      --env-dark: #a8315a;
+      --env-flap: #e5608a;
+      --btn-bg: #ffe9f1;
+      --btn-ink: #2a0f2a;
+      --btn-ghost-border: #ffe9f1;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg1: #2a0f2a;
+    --bg2: #1a0919;
+    --ink: #ffe9f1;
+    --ink-soft: #e3b0c8;
+    --env: #d2476f;
+    --env-dark: #a8315a;
+    --env-flap: #e5608a;
+    --btn-bg: #ffe9f1;
+    --btn-ink: #2a0f2a;
+    --btn-ghost-border: #ffe9f1;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg2);
+    background-image: radial-gradient(120% 90% at 50% 0%, var(--bg1) 0%, var(--bg2) 70%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: "Newsreader", Georgia, "Times New Roman", serif;
+    overflow-x: hidden;
+  }
+
+  /* ---------- Stage ---------- */
+  .stage {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.6rem;
+    padding: 2rem 1.25rem 2.5rem;
+    text-align: center;
+  }
+  h1 {
+    margin: 0;
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 700;
+    font-optical-sizing: auto;
+    font-size: clamp(2.3rem, 9vw, 4.6rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    max-width: 14ch;
+    text-wrap: balance;
+  }
+  h1 .name { display: block; font-style: italic; font-weight: 500; }
+  .sub {
+    margin: 0;
+    font-size: clamp(1.05rem, 3.6vw, 1.3rem);
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Envelope ---------- */
+  .env-wrap {
+    position: relative;
+    width: min(84vw, 360px);
+    aspect-ratio: 3 / 2;
+    perspective: 900px;
+    margin-top: 0.8rem;
+  }
+  .env-btn {
+    all: unset;
+    position: absolute; inset: 0;
+    cursor: pointer;
+    border-radius: 6px;
+    animation: bob 3.4s ease-in-out infinite;
+  }
+  .env-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 6px; }
+  .env-btn.opened { animation: none; }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+
+  .env-body {
+    position: absolute; inset: 0;
+    background: var(--env-dark);
+    border-radius: 6px;
+    box-shadow: 0 18px 40px rgba(60, 10, 40, 0.35);
+  }
+  .peek {
+    position: absolute;
+    left: 7%; right: 7%; bottom: 6%;
+    height: 80%;
+    background: var(--paper);
+    border-radius: 4px;
+    transition: transform 0.8s cubic-bezier(.2,.8,.2,1);
+    z-index: 1;
+    padding: 1.2rem 1rem;
+    color: var(--paper-soft);
+    font-family: "Fraunces", Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+  }
+  .env-btn.opened .peek { transform: translateY(-48%); }
+  .pocket {
+    position: absolute; inset: 0; z-index: 2;
+    pointer-events: none;
+  }
+  .pocket::before, .pocket::after {
+    content: ""; position: absolute; inset: 0;
+    border-radius: 6px;
+  }
+  .pocket::before {
+    background: var(--env);
+    clip-path: polygon(0 0, 52% 54%, 0 100%);
+  }
+  .pocket::after {
+    background: var(--env);
+    clip-path: polygon(100% 0, 48% 54%, 100% 100%);
+  }
+  .pocket-bottom {
+    position: absolute; inset: 0; z-index: 2;
+    background: var(--env);
+    clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+    filter: brightness(1.06);
+    pointer-events: none;
+  }
+  .flap {
+    position: absolute; left: 0; right: 0; top: 0;
+    height: 58%;
+    background: var(--env-flap);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform 0.7s cubic-bezier(.5,0,.2,1), z-index 0s 0.35s;
+    z-index: 4;
+    border-radius: 6px 6px 0 0;
+  }
+  .env-btn.opened .flap { transform: rotateX(180deg); z-index: 0; }
+  .seal {
+    position: absolute; z-index: 5;
+    left: 50%; top: 52%;
+    width: 52px; height: 52px;
+    margin: -26px 0 0 -26px;
+    border-radius: 50%;
+    background: var(--seal);
+    color: var(--seal-ink);
+    display: grid; place-items: center;
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 1.7rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 -3px 0 rgba(0,0,0,0.12), inset 0 0 0 3px rgba(255,255,255,0.18);
+    transition: opacity 0.3s, transform 0.4s;
+  }
+  .env-btn.opened .seal { opacity: 0; transform: scale(0.4); }
+
+  /* ---------- Buttons ---------- */
+  .actions { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; }
+  .btn {
+    font: inherit;
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.8rem 1.4rem;
+    min-height: 46px;
+    border-radius: 999px;
+    border: 2px solid var(--btn-ghost-border);
+    background: var(--btn-bg);
+    color: var(--btn-ink);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: translateY(0) scale(0.97); }
+  .btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+  .btn.ghost { background: transparent; color: var(--ink); }
+
+  /* ---------- Letter sheet ---------- */
+  .sheet {
+    position: fixed; inset: 0; z-index: 20;
+    display: none;
+    background: rgba(40, 8, 30, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: calc(1rem + env(safe-area-inset-top, 0px)) 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  }
+  .sheet.show { display: block; }
+  .letter {
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--paper);
+    color: var(--paper-ink);
+    border-radius: 8px;
+    padding: clamp(1.6rem, 6vw, 3rem) clamp(1.3rem, 6vw, 3rem) 2rem;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+    background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(201, 58, 102, 0.07) 31px 32px);
+    transform-origin: 50% 0;
+  }
+  .sheet.show .letter { animation: unfold 0.7s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes unfold {
+    from { transform: translateY(40px) scaleY(0.6); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+  }
+  .letter h2 {
+    margin: 0 0 1.4rem;
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(1.7rem, 6vw, 2.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    color: var(--env-dark);
+  }
+  .letter p {
+    margin: 0 0 1.05rem;
+    font-size: clamp(1.08rem, 3.5vw, 1.22rem);
+    line-height: 1.7;
+    max-width: 62ch;
+  }
+  .letter p.note { font-style: italic; color: var(--env-dark); font-weight: 500; }
+  .letter p.sign { font-family: "Fraunces", Georgia, serif; font-size: 1.35rem; margin-top: 1.6rem; }
+  .letter-actions {
+    display: flex; flex-wrap: wrap; gap: 0.7rem;
+    margin-top: 1.8rem; padding-top: 1.4rem;
+    border-top: 1px dashed rgba(201, 58, 102, 0.4);
+  }
+  .letter .btn { background: #3a1230; color: #fff4f8; border-color: #3a1230; }
+  .letter .btn.ghost { background: transparent; color: #3a1230; }
+
+  /* ---------- Extras ---------- */
+  .stage { position: relative; z-index: 1; }
+  .hint { margin: 0; font-family: "Caveat", "Segoe Script", cursive; font-size: 1.7rem; color: var(--ink-soft); }
+  .balloons { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .balloon {
+    position: absolute; bottom: -130px;
+    width: 44px; height: 56px;
+    border-radius: 50% 50% 48% 48%;
+    opacity: 0.5;
+    animation: floatup linear infinite;
+  }
+  .balloon::after {
+    content: ""; position: absolute; left: 50%; top: 100%;
+    width: 1px; height: 46px; background: currentColor; opacity: 0.6;
+  }
+  @keyframes floatup {
+    0%   { transform: translate(0, 0) rotate(-4deg); }
+    50%  { transform: translate(18px, -65vh) rotate(4deg); }
+    100% { transform: translate(-8px, -130vh) rotate(-3deg); }
+  }
+
+  .address {
+    position: absolute; z-index: 3; left: 0; right: 0; bottom: 11%;
+    text-align: center;
+    font-family: "Caveat", "Segoe Script", cursive;
+    font-size: clamp(1.3rem, 6vw, 1.8rem);
+    color: #fff4f8;
+    transform: rotate(-3deg);
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .env-btn.opened .address { opacity: 0; }
+
+  .letter { position: relative; }
+  .letter::before {
+    content: ""; position: absolute; inset: 0; border-radius: 8px; pointer-events: none;
+    background: linear-gradient(to bottom,
+      transparent calc(33.3% - 1px), rgba(0,0,0,0.07) 33.3%, rgba(255,255,255,0.5) calc(33.3% + 1px), transparent calc(33.3% + 3px),
+      transparent calc(66.6% - 1px), rgba(0,0,0,0.07) 66.6%, rgba(255,255,255,0.5) calc(66.6% + 1px), transparent calc(66.6% + 3px));
+  }
+  .letter p.rv { opacity: 0; transform: translateY(12px); transition: opacity 0.7s, transform 0.7s; }
+  .letter p.rv.in { opacity: 1; transform: none; }
+
+  .santosh { cursor: pointer; border-bottom: 1px dotted currentColor; }
+  .santosh:focus-visible { outline: 2px solid var(--env); outline-offset: 2px; }
+
+  .cake { margin: 2.2rem auto 0; text-align: center; }
+  .cake .cap { font-family: "Caveat", "Segoe Script", cursive; font-size: 1.9rem; color: var(--env-dark); margin: 0 0 0.2rem; }
+  .cake svg { width: min(72%, 230px); height: auto; display: block; margin: 0 auto 1rem; cursor: pointer; overflow: visible; }
+  .flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flick 0.5s ease-in-out infinite alternate; transition: opacity 0.25s, transform 0.25s; }
+  @keyframes flick { from { transform: scale(1, 1) rotate(-3deg); } to { transform: scale(0.9, 1.12) rotate(3deg); } }
+  .smoke { opacity: 0; }
+  .cake.out .flame { opacity: 0; transform: scale(0.2); animation: none; }
+  .cake.out .smoke { animation: smoke 1.8s ease-out; }
+  @keyframes smoke { 0% { opacity: 0.7; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-26px); } }
+
+  /* ---------- Effects ---------- */
+  #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
+  .float-heart {
+    position: fixed; z-index: 41; pointer-events: none;
+    font-size: 1.6rem;
+    animation: rise 2.2s ease-out forwards;
+  }
+  @keyframes rise {
+    from { transform: translateY(0) scale(0.6); opacity: 1; }
+    to   { transform: translateY(-60vh) scale(1.4); opacity: 0; }
+  }
+  .toast {
+    position: fixed; left: 50%; bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
+    transform: translate(-50%, 20px);
+    background: #3a1230; color: #fff4f8;
+    padding: 0.7rem 1.2rem; border-radius: 999px;
+    font-family: "Fraunces", Georgia, serif;
+    opacity: 0; transition: 0.3s; z-index: 50; pointer-events: none;
+    max-width: 90vw; text-align: center;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .env-btn { animation: none; }
+    .sheet.show .letter { animation: none; }
+    .peek, .flap, .seal { transition: none; }
+    .float-heart { animation-duration: 0.01s; }
+    .flame { animation: none; }
+    .letter p.rv { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<main class="stage">
+  <h1>Happy Birthday, <span class="name">Himanshi!</span></h1>
+  <p class="sub">A little something for you ❤️🎂</p>
+
+  <div class="env-wrap">
+    <button class="env-btn" id="envelope" type="button" aria-label="Open the envelope">
+      <div class="env-body"></div>
+      <div class="peek" aria-hidden="true">For Himanshi ✦</div>
+      <div class="pocket"></div>
+      <div class="pocket-bottom"></div>
+      <div class="flap"></div>
+      <div class="address" aria-hidden="true">To: Himanshi</div>
+      <div class="seal" aria-hidden="true">H</div>
+    </button>
+  </div>
+
+  <p class="hint">Tap the envelope</p>
+</main>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="letterTitle">
+  <article class="letter" id="letter">
+    <h2 id="letterTitle">Happy Birthday, Himanshi! ❤️🎂</h2>
+
+    <p>Okay, first of all, don’t get emotional reading this. And if you do, please maintain confidentiality. I have an image to maintain. 😂</p>
+
+    <p>Honestly, I’ve been thinking about what to write, and I realised that I don’t need some fancy words to tell you how much I value our friendship.</p>
+
+    <p>I’m just genuinely glad that I met you. (THANKS TO <span class="santosh" id="santosh" role="button" tabindex="0">SANTOSH</span>🤍) Out of all the people we meet in life, very few become the ones we can randomly call, talk absolute rubbish with, share the smallest things with, and still somehow have the best time doing nothing.<br>And that’s one of my favourite things about us.</p>
+
+    <p>Sometimes I finish my work early, randomly call you to ask if you’re home, and just come over to sit with you, play with Shim, and talk nonsense for hours. No plan, no special occasion, nothing exciting happening. And somehow, those ordinary afternoons are some of the most comforting ones.</p>
+
+    <p>I guess that’s what a good friendship feels like. You don’t always need to do something special. Sometimes, just being around your people is enough. ❤️</p>
+
+    <p>Also, I think I’ve officially become your personal customer care department. Koi kaam ho, kuch figure out karna ho, ya help chahiye ho, somehow you know whom to call. 😂 At this point, I should start charging consultation fees.</p>
+
+    <p>But jokes aside, I’m glad you know you can count on me. Whenever you genuinely need me, I’ll try my best to be there. I might not always have the perfect solution, but I’ll listen, help however I can, and probably annoy you a little in the process.</p>
+
+    <p>And I know you don’t always share everything that’s going on in your head. You tend to handle things yourself, but I’m glad you feel comfortable enough to open up to me sometimes. You don’t have to explain everything perfectly or figure everything out alone. Bas, jab mann kare, baat kar lena. I’ll try to understand… although decoding you deserves a separate degree. 😂❤️</p>
+
+    <p>But honestly, it’s these little things that make our friendship fun. The random conversations, the unnecessary teasing, and all the nonsense that probably wouldn’t make sense to anyone else.</p>
+
+    <p>And something I genuinely appreciate about you is how you look out for me, especially when it comes to my past relationship. I know you want what’s best for me, and I’m glad I have someone who cares enough to tell me what they honestly think, even when I might not want to hear it.</p>
+
+    <p>I hope you know I’ll always want the best for you, too. I’ll share my thoughts whenever you need them, but I’ll always respect that your decisions are yours to make. You know your life better than anyone else, and whatever you decide, I’ll be here when you need a friend.</p>
+
+    <p>That’s what I value about us. We can look out for each other, disagree sometimes, give each other advice, and still let each other figure life out in our own ways. ❤️</p>
+
+    <p class="note">And now, the actual reason for this little surprise.</p>
+
+    <p>On 28th October, I decided to put this together for you. Because annoying you is honestly one of the easiest things I’ve ever done, but surprising you required some actual effort. 😂</p>
+
+    <p>For once, I wanted to do something different instead of just wishing you, teasing you, and calling it a day.<br>So here’s your little reminder that you’re genuinely appreciated, that your friendship means a lot to me, and that I’m really glad you’re a part of my life.</p>
+
+    <p>I hope you stop doubting yourself so much, give yourself more credit, and remember that you don’t always have to handle everything alone.</p>
+
+    <p><strong>Happy Birthday to my favourite person🫶❤️</strong></p>
+
+    <p>And if you ever read this again on a bad day, just remember that you’ve got a friend who’s always rooting for you.</p>
+
+    <p class="sign">Lots of love.❤️</p>
+
+    <div class="cake" id="cake">
+      <p class="cap">Make a wish ✨</p>
+      <svg id="cakeSvg" viewBox="0 0 200 170" role="img" aria-label="Birthday cake with three candles">
+        <ellipse cx="100" cy="158" rx="88" ry="8" fill="#000" opacity="0.12"/>
+        <rect x="22" y="104" width="156" height="50" rx="8" fill="#c93a66"/>
+        <rect x="22" y="126" width="156" height="6" fill="#f2b33d"/>
+        <rect x="42" y="68" width="116" height="40" rx="8" fill="#dc527c"/>
+        <path d="M42 74 H158 V86 Q150 98 142 86 Q134 98 126 86 Q118 98 110 86 Q102 98 94 86 Q86 98 78 86 Q70 98 62 86 Q54 98 46 86 L42 86 Z" fill="#fff4f8"/>
+        <rect x="67" y="44" width="6" height="26" rx="2" fill="#7ad3c1"/>
+        <rect x="97" y="44" width="6" height="26" rx="2" fill="#b48cf2"/>
+        <rect x="127" y="44" width="6" height="26" rx="2" fill="#f2b33d"/>
+        <g class="flame"><ellipse cx="70" cy="36" rx="5" ry="9" fill="#ff8a3d"/><ellipse cx="70" cy="39" rx="2.6" ry="5" fill="#ffe28a"/></g>
+        <g class="flame" style="animation-delay:-0.2s"><ellipse cx="100" cy="36" rx="5" ry="9" fill="#ff8a3d"/><ellipse cx="100" cy="39" rx="2.6" ry="5" fill="#ffe28a"/></g>
+        <g class="flame" style="animation-delay:-0.35s"><ellipse cx="130" cy="36" rx="5" ry="9" fill="#ff8a3d"/><ellipse cx="130" cy="39" rx="2.6" ry="5" fill="#ffe28a"/></g>
+        <path class="smoke" d="M70 40 q-4 -8 0 -14 q4 -6 0 -12" stroke="#9a8a94" fill="none" stroke-width="2" stroke-linecap="round"/>
+        <path class="smoke" d="M100 40 q-4 -8 0 -14 q4 -6 0 -12" stroke="#9a8a94" fill="none" stroke-width="2" stroke-linecap="round"/>
+        <path class="smoke" d="M130 40 q-4 -8 0 -14 q4 -6 0 -12" stroke="#9a8a94" fill="none" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <button class="btn" id="blowBtn" type="button">Blow out the candles</button>
+    </div>
+
+    <div class="letter-actions">
+      <button class="btn" id="hugBtn2" type="button">🤗 Send a hug</button>
+      <button class="btn ghost" id="closeBtn" type="button">Fold the letter</button>
+    </div>
+  </article>
+</div>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  var envelope = document.getElementById('envelope');
+  var sheet = document.getElementById('sheet');
+  var toast = document.getElementById('toast');
+  var canvas = document.getElementById('confetti');
+  var ctx = canvas.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var openTimer = null;
+  var lastFocus = null;
+
+  /* ---- Confetti ---- */
+  var pieces = [], raf = null;
+  var colors = ['#f2b33d', '#dc527c', '#ffffff', '#7ad3c1', '#b48cf2', '#ff8a5c'];
+
+  function sizeCanvas() {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = innerWidth * dpr;
+    canvas.height = innerHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', sizeCanvas);
+  sizeCanvas();
+
+  function burst() {
+    if (reduce) { showToast('Happy Birthday! 🎉'); return; }
+    for (var i = 0; i < 140; i++) {
+      pieces.push({
+        x: innerWidth / 2 + (Math.random() - 0.5) * 120,
+        y: innerHeight * 0.55,
+        vx: (Math.random() - 0.5) * 16,
+        vy: -Math.random() * 16 - 5,
+        g: 0.32 + Math.random() * 0.15,
+        w: 6 + Math.random() * 7,
+        h: 4 + Math.random() * 6,
+        r: Math.random() * 6.28,
+        vr: (Math.random() - 0.5) * 0.4,
+        c: colors[(Math.random() * colors.length) | 0],
+        life: 160 + Math.random() * 80
+      });
+    }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function tick() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    pieces = pieces.filter(function (p) { return p.life > 0 && p.y < innerHeight + 40; });
+    pieces.forEach(function (p) {
+      p.vy += p.g; p.vx *= 0.99;
+      p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life--;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+      ctx.globalAlpha = Math.min(1, p.life / 40);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    if (pieces.length) { raf = requestAnimationFrame(tick); }
+    else { raf = null; ctx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+
+  /* ---- Hugs ---- */
+  var hugs = [
+    'Hug sent. 🤗',
+    'Another one. Annoying you is easy. 😂',
+    'Extra hug. No charge. Consultation fee waived.',
+    'Okay, that’s enough. Maintain your image. 😂'
+  ];
+  var hugCount = 0;
+  function hug() {
+    var n = reduce ? 1 : 10;
+    for (var i = 0; i < n; i++) {
+      var h = document.createElement('span');
+      h.className = 'float-heart';
+      h.textContent = ['❤️', '🤍', '🫶', '💖'][i % 4];
+      h.style.left = (15 + Math.random() * 70) + 'vw';
+      h.style.top = (60 + Math.random() * 25) + 'vh';
+      h.style.animationDelay = (i * 0.08) + 's';
+      document.body.appendChild(h);
+      setTimeout(function (el) { el.remove(); }.bind(null, h), 2600);
+    }
+    showToast(hugs[hugCount % hugs.length]);
+    hugCount++;
+  }
+
+  var toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
+  }
+
+  /* ---- Envelope + letter ---- */
+  function openLetter() {
+    if (sheet.classList.contains('show')) return;
+    lastFocus = document.activeElement;
+    envelope.classList.add('opened');
+    envelope.setAttribute('aria-label', 'Envelope opened');
+    var delay = reduce ? 0 : 900;
+    clearTimeout(openTimer);
+    openTimer = setTimeout(function () {
+      sheet.classList.add('show');
+      sheet.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+      document.getElementById('closeBtn').focus({ preventScroll: true });
+      burst();
+    }, delay);
+  }
+  function closeLetter() {
+    sheet.classList.remove('show');
+    document.body.style.overflow = '';
+    envelope.classList.remove('opened');
+    envelope.setAttribute('aria-label', 'Open the envelope');
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+
+  envelope.addEventListener('click', openLetter);
+  document.getElementById('closeBtn').addEventListener('click', closeLetter);
+  document.getElementById('hugBtn2').addEventListener('click', hug);
+
+  /* ---- Cake ---- */
+  var cake = document.getElementById('cake');
+  var blowBtn = document.getElementById('blowBtn');
+  function toggleCake() {
+    var out = cake.classList.toggle('out');
+    blowBtn.textContent = out ? 'Relight the candles' : 'Blow out the candles';
+    if (out) { burst(); showToast('Wish made. Don’t tell anyone 🤫'); }
+  }
+  blowBtn.addEventListener('click', toggleCake);
+  document.getElementById('cakeSvg').addEventListener('click', toggleCake);
+
+  /* ---- Easter egg ---- */
+  var santosh = document.getElementById('santosh');
+  santosh.addEventListener('click', function () { showToast('Thanks, Santosh 🤍'); });
+  santosh.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showToast('Thanks, Santosh 🤍'); }
+  });
+
+  /* ---- Balloons ---- */
+  if (!reduce) {
+    var layer = document.createElement('div');
+    layer.className = 'balloons';
+    layer.setAttribute('aria-hidden', 'true');
+    var bcolors = ['#f2b33d', '#dc527c', '#b48cf2', '#7ad3c1', '#ff8a5c'];
+    for (var b = 0; b < 9; b++) {
+      var el = document.createElement('span');
+      el.className = 'balloon';
+      var col = bcolors[b % bcolors.length];
+      el.style.background = col;
+      el.style.color = col;
+      el.style.left = (4 + b * 11 + Math.random() * 5) + 'vw';
+      el.style.animationDuration = (16 + Math.random() * 10) + 's';
+      el.style.animationDelay = (-Math.random() * 20) + 's';
+      var s = 0.8 + Math.random() * 0.6;
+      el.style.width = (44 * s) + 'px';
+      el.style.height = (56 * s) + 'px';
+      layer.appendChild(el);
+    }
+    document.body.insertBefore(layer, document.body.firstChild);
+  }
+
+  /* ---- Paragraph reveal ---- */
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { root: sheet, threshold: 0.15 });
+    document.querySelectorAll('.letter p').forEach(function (p) {
+      p.classList.add('rv');
+      io.observe(p);
+    });
+  }
+
+  sheet.addEventListener('click', function (e) { if (e.target === sheet) closeLetter(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && sheet.classList.contains('show')) closeLetter();
+  });
+})();
+</script>
+</body>
+</html>
